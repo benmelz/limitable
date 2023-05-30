@@ -35,15 +35,15 @@ gem install limitable
 ## Usage
 
 Once included in a model, `Limitable` will scan `integer`, `string` and `text` columns for size limits
-and define _byte size_ validations accordingly. Limits are configurable through `ActiveRecord` migrations.
+and define byte size validations accordingly. Limits are configurable through `ActiveRecord` migrations.
 
 ### Quick Start
 
-To enable these database limit validations globally:
+To enable database limit validations globally:
 
 ```ruby
 class ApplicationRecord < ActiveRecord::Base
-  include Limitable::Base
+  extend Limitable::Base
 
   # ...
 end
@@ -61,8 +61,8 @@ end
 
 ### SQL Adapters
 
-`Limitable` is designed to be SQL adapter agnostic, however although some adapters have different default
-default behaviors than others.
+`Limitable` is designed to be SQL adapter agnostic, however different adapters have different default behaviors that
+affect their integration with this library.
 
 #### `mysql2`
 
@@ -72,12 +72,13 @@ limits in your database migrations/schema unless you want to change them from th
 #### `pg`
 
 PostgreSQL has and reports hard limits on its integer columns, however it supports and defaults to unlimited
-string/text columns. If you wish for limits to be set, they must be explicitly set in your database migrations/schema.
+string/text columns. If you wish for limits to be validated on those columns, they must be explicitly set in your
+database migrations/schema.
 
 #### `sqlite3`
 
 SQLite has hard limits on most of its column types, but it does not report them to active record. If you wish for limits
-to be picked up, they must be explicitly set in your database migrations/schema.
+to be validated, they must be explicitly set in your database migrations/schema.
 
 ## Development
 
