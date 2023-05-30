@@ -1,0 +1,11 @@
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - bin/rake
+    - gemfiles/**/*
+  NewCops: enable
+  TargetRubyVersion: 3.0
