@@ -43,7 +43,7 @@ To enable these database limit validations globally:
 
 ```ruby
 class ApplicationRecord < ActiveRecord::Base
-  include Limitable::Base
+  extend Limitable::Base
 
   # ...
 end
