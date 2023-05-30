@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    limitable (0.0.0.pre.development)
+    limitable (1.0.0)
       activerecord (>= 6, < 8)
       i18n (>= 1.6, < 2)
 
