@@ -1,0 +1,20 @@
+name: cd
+on:
+  push:
+    branches: [main]
+jobs:
+  semantic-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install --global semantic-release@21 @semantic-release/changelog@6 @semantic-release/git@10 semantic-release-rubygem@1
+      - run: npx semantic-release@21
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
