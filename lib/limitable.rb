@@ -52,7 +52,7 @@ module Limitable
     end
 
     def integer_limit_range(limit)
-      max = ('1' * (limit * 8)).to_i(2) / 2
+      max = (1 << ((limit * 8) - 1)) - 1
       min = -max
       [min, max]
     end
