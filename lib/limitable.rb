@@ -14,7 +14,7 @@ module Limitable
   class << self
     def included(klass)
       safe_column_names(klass)&.each do |column_name|
-        add_limit_validation klass, klass.column_for_attribute(column_name), klass.type_for_attribute(column_name)
+        add_limit_validation klass, column_name
       end
     end
 
@@ -26,23 +26,24 @@ module Limitable
       nil
     end
 
-    def add_limit_validation(klass, column, type)
+    def add_limit_validation(klass, column_name)
+      column = klass.column_for_attribute column_name
       limit = column.sql_type_metadata.limit
       return if limit.blank?
 
       case column.type
       when :integer
-        add_integer_limit_validation klass, column.name, limit, type
+        add_integer_limit_validation klass, column_name, limit
       when :string, :text
-        add_string_limit_validation klass, column.name, limit, type
+        add_string_limit_validation klass, column_name, limit
       end
     end
 
-    def add_integer_limit_validation(klass, column_name, limit, type)
+    def add_integer_limit_validation(klass, column_name, limit)
       min, max = integer_limit_range limit
       integer_type_normalizer = method :integer_type_normalizer
       klass.validate do
-        value = integer_type_normalizer.call self[column_name], type
+        value = integer_type_normalizer.call klass, column_name, self[column_name]
         next unless value.is_a?(Integer)
 
         errors.add column_name, I18n.t('errors.messages.greater_than_or_equal_to', count: min) if value < min
@@ -56,15 +57,15 @@ module Limitable
       [min, max]
     end
 
-    def integer_type_normalizer(value, type)
-      type.serialize value
-    rescue ActiveModel::RangeError
-      value.to_i
+    def integer_type_normalizer(klass, column_name, value)
+      klass.type_for_attribute(column_name).serialize value
+    rescue ActiveModel::RangeError => e
+      e.message.match(/(?<number>\d+) is out of range/)&.[](:number)&.to_i || value.to_i
     end
 
-    def add_string_limit_validation(klass, column_name, limit, type)
+    def add_string_limit_validation(klass, column_name, limit)
       klass.validate do
-        value = type.serialize self[column_name]
+        value = klass.type_for_attribute(column_name).serialize self[column_name]
         next unless value.is_a?(String) && value.bytesize > limit
 
         errors.add column_name, I18n.t('errors.messages.too_long.other', count: limit)
