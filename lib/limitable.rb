@@ -60,7 +60,7 @@ module Limitable
     def integer_type_normalizer(klass, column_name, value)
       klass.type_for_attribute(column_name).serialize value
     rescue ActiveModel::RangeError => e
-      e.message.match(/(?<number>\d+) is out of range/)&.[](:number).to_i || value.to_i
+      e.message.match(/(?<number>\d+) is out of range/)&.[](:number).to_i
     end
 
     def add_string_limit_validation(klass, column_name, limit)
