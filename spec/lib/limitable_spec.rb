@@ -132,5 +132,31 @@ RSpec.describe Limitable do
         expect(model).not_to have_received(:validate)
       end
     end
+
+    context 'with a limited custom type column' do
+      let(:schema_builder) { ->(t) { t.integer :limited_enum_column, limit: 2 } }
+
+      before do
+        model.enum limited_enum_column: { good_value: 0, bad_value: 32_768 }
+      end
+
+      it 'adds an limit validation in accordance with the column limit' do
+        expect(model.new(limited_enum_column: 'bad_value')).not_to be_valid
+      end
+
+      it 'sets a locale error message when the limit is violated' do
+        instance = model.new(limited_enum_column: 'bad_value').tap(&:validate)
+        error_messages = instance.errors.messages[:limited_enum_column]
+        expect(error_messages).to include(I18n.t('errors.messages.less_than_or_equal_to', count: 32_767))
+      end
+
+      it 'does not affect values within the limit' do
+        expect(model.new(limited_enum_column: 'good_value')).to be_valid
+      end
+
+      it 'does not affect nil values' do
+        expect(model.new(limited_enum_column: nil)).to be_valid
+      end
+    end
   end
 end
