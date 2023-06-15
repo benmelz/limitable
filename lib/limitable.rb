@@ -13,7 +13,7 @@ require_relative 'limitable/version'
 module Limitable
   class << self
     def included(klass)
-      safe_column_names(klass)&.each do |column_name|
+      safe_column_names(klass).each do |column_name|
         add_limit_validation klass, column_name
       end
     end
@@ -23,7 +23,7 @@ module Limitable
     def safe_column_names(klass)
       klass.column_names
     rescue ActiveRecord::ActiveRecordError, ArgumentError
-      nil
+      []
     end
 
     def add_limit_validation(klass, column_name)
