@@ -14,16 +14,7 @@ module Limitable
   class << self
     def included(klass)
       safe_column_names(klass).each do |column_name|
-        column = klass.column_for_attribute column_name
-        limit = column.sql_type_metadata.limit
-        next if limit.blank?
-
-        case column.type
-        when :integer
-          klass.validate(&build_integer_limit_validator(column_name, limit))
-        when :string, :text
-          klass.validate(&build_string_limit_validator(column_name, limit))
-        end
+        add_limit_validator(klass, column_name)
       end
     end
 
@@ -33,6 +24,19 @@ module Limitable
       klass.column_names
     rescue ActiveRecord::ActiveRecordError, ArgumentError
       []
+    end
+
+    def add_limit_validator(klass, column_name)
+      column = klass.column_for_attribute column_name
+      limit = column.sql_type_metadata.limit
+      next if limit.blank?
+
+      case column.type
+      when :integer
+        klass.validate(&build_integer_limit_validator(column_name, limit))
+      when :string, :text
+        klass.validate(&build_string_limit_validator(column_name, limit))
+      end
     end
 
     def build_integer_limit_validator(column_name, limit)
