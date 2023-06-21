@@ -14,7 +14,7 @@ module Limitable
   class << self
     def included(klass)
       safe_column_names(klass).each do |column_name|
-        add_limit_validator(klass, column_name)
+        attach_limit_validator_if_needed(klass, column_name)
       end
     end
 
@@ -26,7 +26,7 @@ module Limitable
       []
     end
 
-    def add_limit_validator(klass, column_name)
+    def attach_limit_validator_if_needed(klass, column_name)
       column = klass.column_for_attribute column_name
       limit = column.sql_type_metadata.limit
       return if limit.blank?
