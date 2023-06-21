@@ -34,7 +34,7 @@ module Limitable
       case column.type
       when :integer
         klass.validate(&build_integer_limit_validator(column_name, limit))
-      when :string, :text
+      when :binary, :string, :text
         klass.validate(&build_string_limit_validator(column_name, limit))
       end
     end
@@ -57,6 +57,7 @@ module Limitable
     def build_string_limit_validator(column_name, limit)
       lambda do
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
+        value = value.to_s if value.is_a? ActiveModel::Type::Binary::Data
         next unless value.is_a?(String) && value.bytesize > limit
 
         errors.add column_name, I18n.t('errors.messages.too_long.other', count: limit)
