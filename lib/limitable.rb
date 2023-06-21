@@ -14,7 +14,7 @@ module Limitable
   class << self
     def included(klass)
       safe_column_names(klass).each do |column_name|
-        attach_limit_validator_if_needed(klass, column_name)
+        attach_limit_validator_if_needed klass, column_name
       end
     end
 
