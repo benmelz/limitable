@@ -40,8 +40,7 @@ module Limitable
     end
 
     def build_integer_limit_validator(column_name, limit)
-      max = (1 << ((limit * 8) - 1)) - 1
-      min = -max
+      min, max = integer_limit_range limit
       lambda do
         value = begin
           self.class.type_for_attribute(column_name).serialize self[column_name]
@@ -62,6 +61,12 @@ module Limitable
 
         errors.add column_name, I18n.t('errors.messages.too_long.other', count: limit)
       end
+    end
+
+    def integer_limit_range(limit)
+      max = (1 << ((limit * 8) - 1)) - 1
+      min = -max
+      [min, max]
     end
   end
 end
