@@ -8,7 +8,7 @@ require_relative 'limitable/version'
 # == Limitable
 #
 # Module that declares database limit validations when included in an ActiveRecord model class. Supports limit
-# inferences on integer, string and text columns.
+# inferences on integer, string, text and binary columns.
 #
 module Limitable
   class << self
