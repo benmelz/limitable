@@ -29,7 +29,7 @@ module Limitable
     def add_limit_validator(klass, column_name)
       column = klass.column_for_attribute column_name
       limit = column.sql_type_metadata.limit
-      next if limit.blank?
+      return if limit.blank?
 
       case column.type
       when :integer
