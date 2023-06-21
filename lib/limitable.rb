@@ -47,7 +47,7 @@ module Limitable
         rescue ActiveModel::RangeError => e
           e.message.match(/(?<number>\d+) is out of range/)[:number].to_i
         end
-        next unless value.is_a?(Integer)
+        next unless value.is_a? Integer
 
         errors.add column_name, I18n.t('errors.messages.greater_than_or_equal_to', count: min) if value < min
         errors.add column_name, I18n.t('errors.messages.less_than_or_equal_to', count: max) if value > max
