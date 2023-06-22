@@ -49,8 +49,8 @@ module Limitable
         end
         next unless value.is_a? Integer
 
-        errors.add column_name, I18n.t('errors.messages.greater_than_or_equal_to', count: min) if value < min
-        errors.add column_name, I18n.t('errors.messages.less_than_or_equal_to', count: max) if value > max
+        errors.add column_name, I18n.t('errors.messages.too_large') if value < min
+        errors.add column_name, I18n.t('errors.messages.too_large') if value > max
       end
     end
 
@@ -59,7 +59,7 @@ module Limitable
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
         next unless value.is_a?(String) && value.bytesize > limit
 
-        errors.add column_name, I18n.t('errors.messages.too_long.other', count: limit)
+        errors.add column_name, I18n.t('errors.messages.too_large', count: limit)
       end
     end
 
@@ -70,3 +70,5 @@ module Limitable
     end
   end
 end
+
+I18n.load_path << File.expand_path('limitable/locale/en.yml', __dir__)
