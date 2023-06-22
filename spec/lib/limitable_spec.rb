@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 require 'limitable'
+require 'i18n'
 require 'support/active_record_shared_examples'
 
 RSpec.describe Limitable do
   it 'has a version number' do
     expect(Limitable::VERSION).not_to be_nil
+  end
+
+  it 'defines a too large translation' do
+    expect(I18n.t('errors.messages.too_large')).to be_present
   end
 
   context 'when mixed into a model' do
@@ -37,13 +42,13 @@ RSpec.describe Limitable do
       it 'sets a locale error message when the upper limit is violated' do
         instance = model.new(limited_integer_column: 32_768).tap(&:validate)
         error_messages = instance.errors.messages[:limited_integer_column]
-        expect(error_messages).to include(I18n.t('errors.messages.less_than_or_equal_to', count: 32_767))
+        expect(error_messages).to include(I18n.t('errors.messages.too_large'))
       end
 
       it 'sets a locale error message when the lower limit is violated' do
         instance = model.new(limited_integer_column: -32_768).tap(&:validate)
         error_messages = instance.errors.messages[:limited_integer_column]
-        expect(error_messages).to include(I18n.t('errors.messages.greater_than_or_equal_to', count: -32_767))
+        expect(error_messages).to include(I18n.t('errors.messages.too_large'))
       end
 
       it 'does not affect values just below the upper limit' do
@@ -79,7 +84,7 @@ RSpec.describe Limitable do
       it 'sets a locale error message when the limit is violated' do
         instance = model.new(limited_string_column: 'abcd🖕').tap(&:validate)
         error_messages = instance.errors.messages[:limited_string_column]
-        expect(error_messages).to include(I18n.t('errors.messages.too_long.other', count: 5))
+        expect(error_messages).to include(I18n.t('errors.messages.too_large'))
       end
 
       it 'does not affect values within the limit' do
@@ -111,7 +116,7 @@ RSpec.describe Limitable do
       it 'sets a locale error message when the limit is violated' do
         instance = model.new(limited_text_column: 'abcd🖕').tap(&:validate)
         error_messages = instance.errors.messages[:limited_text_column]
-        expect(error_messages).to include(I18n.t('errors.messages.too_long.other', count: 5))
+        expect(error_messages).to include(I18n.t('errors.messages.too_large'))
       end
 
       it 'does not affect values within the limit' do
@@ -147,7 +152,7 @@ RSpec.describe Limitable do
       it 'sets a locale error message when the limit is violated' do
         instance = model.new(limited_enum_column: 'bad_value').tap(&:validate)
         error_messages = instance.errors.messages[:limited_enum_column]
-        expect(error_messages).to include(I18n.t('errors.messages.less_than_or_equal_to', count: 32_767))
+        expect(error_messages).to include(I18n.t('errors.messages.too_large'))
       end
 
       it 'does not affect values within the limit' do
