@@ -34,8 +34,8 @@ gem install limitable
 
 ## Usage
 
-Once included in a model, `Limitable` will scan `integer`, `string` and `text` columns for size limits
-and define byte size validations accordingly. Limits are configurable through `ActiveRecord` migrations.
+Once included in a model, `Limitable` will scan `integer`, `string`, `text` and `binary` columns for size limits,
+defining byte size validations accordingly. Limits are configurable through `ActiveRecord` migrations.
 
 ### Quick Start
 
@@ -72,7 +72,7 @@ limits in your database migrations/schema unless you want to change them from th
 #### `pg`
 
 PostgreSQL has and reports hard limits on its integer columns, however it supports and defaults to unlimited
-string/text columns. If you wish for limits to be validated on those columns, they must be explicitly set in your
+string/text/binary columns. If you wish for limits to be validated on those columns, they must be explicitly set in your
 database migrations/schema.
 
 #### `sqlite3`

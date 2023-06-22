@@ -133,6 +133,38 @@ RSpec.describe Limitable do
       end
     end
 
+    context 'with a limited binary column' do
+      let(:schema_builder) { ->(t) { t.binary :limited_binary_column, limit: 5 } }
+
+      it 'adds an length validation in accordance with the column limit' do
+        expect(model.new(limited_binary_column: 'abcd🖕')).not_to be_valid
+      end
+
+      it 'sets a locale error message when the limit is violated' do
+        instance = model.new(limited_binary_column: 'abcd🖕').tap(&:validate)
+        error_messages = instance.errors.messages[:limited_binary_column]
+        expect(error_messages).to include(I18n.t('errors.messages.too_long.other', count: 5))
+      end
+
+      it 'does not affect values within the limit' do
+        expect(model.new(limited_binary_column: 'abcde')).to be_valid
+      end
+
+      it 'does not affect nil values' do
+        expect(model.new(limited_binary_column: nil)).to be_valid
+      end
+    end
+
+    context 'with an unlimited binary column' do
+      let(:schema_builder) { ->(t) { t.binary :unlimited_binary_column } }
+
+      before { allow(model).to receive(:validate).and_call_original }
+
+      it 'does not add any validators' do
+        expect(model).not_to have_received(:validate)
+      end
+    end
+
     context 'with a limited custom type column' do
       let(:schema_builder) { ->(t) { t.integer :limited_enum_column, limit: 2 } }
 
