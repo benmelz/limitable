@@ -3,6 +3,7 @@
 require 'active_record'
 require 'i18n'
 require_relative 'limitable/base'
+require_relative 'limitable/locale'
 require_relative 'limitable/version'
 
 # == Limitable
@@ -32,10 +33,8 @@ module Limitable
       return if limit.blank?
 
       case column.type
-      when :integer
-        klass.validate(&build_integer_limit_validator(column_name, limit))
-      when :binary, :string, :text
-        klass.validate(&build_string_limit_validator(column_name, limit))
+      when :integer, :string, :text, :binary
+        klass.validate(&send(:"build_#{column.type}_limit_validator", column_name, limit))
       end
     end
 
@@ -49,18 +48,35 @@ module Limitable
         end
         next unless value.is_a? Integer
 
-        errors.add column_name, I18n.t('errors.messages.too_large') if value < min
-        errors.add column_name, I18n.t('errors.messages.too_large') if value > max
+        errors.add column_name, I18n.t('limitable.integer_limit_exceeded.lower', limit: min) if value < min
+        errors.add column_name, I18n.t('limitable.integer_limit_exceeded.upper', limit: max) if value > max
       end
     end
 
     def build_string_limit_validator(column_name, limit)
       lambda do
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
-        value = value.to_s if value.is_a? ActiveModel::Type::Binary::Data
         next unless value.is_a?(String) && value.bytesize > limit
 
-        errors.add column_name, I18n.t('errors.messages.too_large', count: limit)
+        errors.add column_name, I18n.t('limitable.string_limit_exceeded', limit: limit)
+      end
+    end
+
+    def build_text_limit_validator(column_name, limit)
+      lambda do
+        value = self.class.type_for_attribute(column_name).serialize self[column_name]
+        next unless value.is_a?(String) && value.bytesize > limit
+
+        errors.add column_name, I18n.t('limitable.text_limit_exceeded', limit: limit)
+      end
+    end
+
+    def build_binary_limit_validator(column_name, limit)
+      lambda do
+        value = self.class.type_for_attribute(column_name).serialize self[column_name]
+        next unless value.is_a?(ActiveModel::Type::Binary::Data) && value.to_s.bytesize > limit
+
+        errors.add column_name, I18n.t('limitable.binary_limit_exceeded', limit: limit)
       end
     end
 
@@ -71,5 +87,3 @@ module Limitable
     end
   end
 end
-
-I18n.load_path << File.expand_path('limitable/locale/en.yml', __dir__)

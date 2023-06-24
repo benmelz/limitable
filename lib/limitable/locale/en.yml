@@ -1,4 +1,8 @@
 en:
-  errors:
-    messages:
-      too_large: "is too large"
+  limitable:
+    integer_limit_exceeded:
+      upper: "is too large"
+      lower: "is too small"
+    string_limit_exceeded: "is too long"
+    text_limit_exceeded: "is too long"
+    binary_limit_exceeded: "is too large"
