@@ -1,0 +1,8 @@
+test:
+  limitable:
+    integer_limit_exceeded:
+      upper: "max integer is %{limit}"
+      lower: "min integer is %{limit}"
+    string_limit_exceeded: "max string is %{limit}"
+    text_limit_exceeded: "max text is %{limit}"
+    binary_limit_exceeded: "max binary is %{limit}"
