@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/benmelz/limitable/compare/v1.0.1...v1.1.0) (2023-07-17)
+
+
+### Features
+
+* support for binary column limits ([#14](https://github.com/benmelz/limitable/issues/14)) ([43224d1](https://github.com/benmelz/limitable/commit/43224d1351052833246b94666b7aca76f8c89aa5)), closes [#3](https://github.com/benmelz/limitable/issues/3)
+
 ## [1.0.1](https://github.com/benmelz/limitable/compare/v1.0.0...v1.0.1) (2023-06-09)
 
 
