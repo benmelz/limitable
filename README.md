@@ -59,6 +59,22 @@ class MyModel < ApplicationRecord
 end
 ```
 
+### Translations
+
+`Limitable` ships with i18n support for its validation error messages. Each column type has its own translation key,
+outlined alongside their default values in `lib/limitable/locale/en.yml`.
+
+Each validator will pass a `limit` parameter (min/max integer for integer columns, bytes for string/text/binary),
+which can be used to make the messages less ambiguous if desired.
+
+e.g.
+
+```yaml
+en:
+  limitable:
+    string_limit_exceeded: "may not exceed %{limit} characters"
+```
+
 ### SQL Adapters
 
 `Limitable` is designed to be SQL adapter agnostic, however different adapters have different default behaviors that
