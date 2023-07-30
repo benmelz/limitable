@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/benmelz/limitable/compare/v1.1.0...v2.0.0) (2023-07-30)
+
+
+* feat!: custom translations (#15) ([bacc785](https://github.com/benmelz/limitable/commit/bacc7858d7d506bba60bad2f1d39c32732136aa3)), closes [#15](https://github.com/benmelz/limitable/issues/15) [#12](https://github.com/benmelz/limitable/issues/12)
+
+
+### BREAKING CHANGES
+
+* reword default validation error messages
+
 # [1.1.0](https://github.com/benmelz/limitable/compare/v1.0.1...v1.1.0) (2023-07-17)
 
 
