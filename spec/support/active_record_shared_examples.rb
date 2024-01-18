@@ -16,12 +16,11 @@ RSpec.shared_context 'with an active record model' do
     table_name = self.table_name
     schema_builder = self.schema_builder
     ActiveRecord::Schema.define { create_table(table_name, force: true, &schema_builder) }
-    Object.const_set(model_class_name, model)
+    stub_const(model_class_name, model)
   end
 
   after do
     table_name = self.table_name
     ActiveRecord::Schema.define { drop_table(table_name) }
-    Object.send(:remove_const, model_class_name)
   end
 end
