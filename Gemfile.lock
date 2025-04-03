@@ -111,6 +111,7 @@ GEM
     unicode-display_width (2.5.0)
 
 PLATFORMS
+  arm64-darwin-22
   arm64-darwin-24
   x86_64-linux
 
@@ -127,4 +128,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   2.3.27
+   2.5.23
