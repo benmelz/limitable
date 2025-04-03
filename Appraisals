@@ -36,3 +36,9 @@ if ruby_version >= Gem::Version.new("2.7.0")
     gem "activerecord", "~> 7.1.0"
   end
 end
+
+if ruby_version >= Gem::Version.new("3.1.0")
+  appraise "rails-7.2" do
+    gem "activerecord", "~> 7.2.0"
+  end
+end
