@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
 
   spec.version = Limitable::VERSION
   spec.required_ruby_version = ">= 3.0"
-  spec.add_dependency "activerecord", ">= 6", "< 8"
+  spec.add_dependency "activerecord", ">= 6", "< 8.1"
   spec.add_dependency "i18n", ">= 1.6", "< 2"
 end
