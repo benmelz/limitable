@@ -211,7 +211,11 @@ RSpec.describe Limitable do
       let(:schema_builder) { ->(t) { t.integer :limited_enum_column, limit: 2 } }
 
       before do
-        model.enum limited_enum_column: { good_value: 0, bad_value: 32_768 }
+        if ActiveRecord.version >= Gem::Version.new("7")
+          model.enum :limited_enum_column, good_value: 0, bad_value: 32_768
+        else
+          model.enum limited_enum_column: { good_value: 0, bad_value: 32_768 }
+        end
       end
 
       it "adds an limit validation in accordance with the column limit" do
