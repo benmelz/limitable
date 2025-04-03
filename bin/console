@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'bundler/setup'
-require 'i18n'
-require 'irb'
-require 'limitable'
+require "bundler/setup"
+require "i18n"
+require "irb"
+require "limitable"
 
 I18n.available_locales = [:en]
 I18n.backend.load_translations
