@@ -2,37 +2,37 @@
 
 ruby_version = Gem::Version.new(RUBY_VERSION)
 
-if ruby_version >= Gem::Version.new('2.5.0')
-  appraise 'rails-6.0' do
-    gem 'activerecord', '~> 6.0.0'
-    if ruby_version >= Gem::Version.new('3.4.0')
-      gem 'base64'
-      gem 'bigdecimal'
-      gem 'mutex_m'
+if ruby_version >= Gem::Version.new("2.5.0")
+  appraise "rails-6.0" do
+    gem "activerecord", "~> 6.0.0"
+    if ruby_version >= Gem::Version.new("3.4.0")
+      gem "base64"
+      gem "bigdecimal"
+      gem "mutex_m"
     end
   end
 
-  appraise 'rails-6.1' do
-    gem 'activerecord', '~> 6.1.0'
-    if ruby_version >= Gem::Version.new('3.4.0')
-      gem 'base64'
-      gem 'bigdecimal'
-      gem 'mutex_m'
+  appraise "rails-6.1" do
+    gem "activerecord", "~> 6.1.0"
+    if ruby_version >= Gem::Version.new("3.4.0")
+      gem "base64"
+      gem "bigdecimal"
+      gem "mutex_m"
     end
   end
 end
 
-if ruby_version >= Gem::Version.new('2.7.0')
-  appraise 'rails-7.0' do
-    gem 'activerecord', '~> 7.0.0'
-    if ruby_version >= Gem::Version.new('3.4.0')
-      gem 'base64'
-      gem 'bigdecimal'
-      gem 'mutex_m'
+if ruby_version >= Gem::Version.new("2.7.0")
+  appraise "rails-7.0" do
+    gem "activerecord", "~> 7.0.0"
+    if ruby_version >= Gem::Version.new("3.4.0")
+      gem "base64"
+      gem "bigdecimal"
+      gem "mutex_m"
     end
   end
 
-  appraise 'rails-7.1' do
-    gem 'activerecord', '~> 7.1.0'
+  appraise "rails-7.1" do
+    gem "activerecord", "~> 7.1.0"
   end
 end

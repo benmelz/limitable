@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'active_record'
-require 'i18n'
-require_relative 'limitable/base'
-require_relative 'limitable/locale'
-require_relative 'limitable/version'
+require "active_record"
+require "i18n"
+require_relative "limitable/base"
+require_relative "limitable/locale"
+require_relative "limitable/version"
 
 # == Limitable
 #
@@ -48,8 +48,8 @@ module Limitable
         end
         next unless value.is_a? Integer
 
-        errors.add column_name, I18n.t('limitable.integer_limit_exceeded.lower', limit: min) if value < min
-        errors.add column_name, I18n.t('limitable.integer_limit_exceeded.upper', limit: max) if value > max
+        errors.add column_name, I18n.t("limitable.integer_limit_exceeded.lower", limit: min) if value < min
+        errors.add column_name, I18n.t("limitable.integer_limit_exceeded.upper", limit: max) if value > max
       end
     end
 
@@ -58,7 +58,7 @@ module Limitable
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
         next unless value.is_a?(String) && value.bytesize > limit
 
-        errors.add column_name, I18n.t('limitable.string_limit_exceeded', limit: limit)
+        errors.add column_name, I18n.t("limitable.string_limit_exceeded", limit: limit)
       end
     end
 
@@ -67,7 +67,7 @@ module Limitable
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
         next unless value.is_a?(String) && value.bytesize > limit
 
-        errors.add column_name, I18n.t('limitable.text_limit_exceeded', limit: limit)
+        errors.add column_name, I18n.t("limitable.text_limit_exceeded", limit: limit)
       end
     end
 
@@ -76,7 +76,7 @@ module Limitable
         value = self.class.type_for_attribute(column_name).serialize self[column_name]
         next unless value.is_a?(ActiveModel::Type::Binary::Data) && value.to_s.bytesize > limit
 
-        errors.add column_name, I18n.t('limitable.binary_limit_exceeded', limit: limit)
+        errors.add column_name, I18n.t("limitable.binary_limit_exceeded", limit: limit)
       end
     end
 
