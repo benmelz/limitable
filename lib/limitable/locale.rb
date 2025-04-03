@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'i18n'
+require "i18n"
 
 module Limitable
   # == Limitable::Locale
@@ -8,6 +8,6 @@ module Limitable
   # Loads the default limitable custom translations into i18n.
   #
   module Locale
-    I18n.load_path << File.expand_path('locale/en.yml', __dir__)
+    I18n.load_path << File.expand_path("locale/en.yml", __dir__)
   end
 end

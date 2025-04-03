@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'active_record'
+require "active_record"
 
-RSpec.shared_context 'with an active record model' do
+RSpec.shared_context "with an active record model" do
   model_counter = 0
 
   let(:model_name) { "model#{model_counter += 1}" }
