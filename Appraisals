@@ -50,4 +50,8 @@ if ruby_version >= Gem::Version.new("3.2.0")
   appraise "rails-8.0" do
     gem "activerecord", "~> 8.0.0"
   end
+
+  appraise "rails-8.1" do
+    gem "activerecord", "~> 8.1.0"
+  end
 end
