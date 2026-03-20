@@ -3,9 +3,7 @@
 require "active_record"
 
 RSpec.shared_context "with an active record model" do
-  model_counter = 0
-
-  let(:model_name) { "model#{model_counter += 1}" }
+  let(:model_name) { "model" }
   let(:model_class_name) { model_name.to_s.singularize.classify }
   let(:model) { Class.new(ApplicationRecord) }
 
