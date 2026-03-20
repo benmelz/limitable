@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/benmelz/limitable/compare/v2.0.1...v2.0.2) (2026-03-20)
+
+
+### Bug Fixes
+
+* add support for rails 8.1 ([#113](https://github.com/benmelz/limitable/issues/113)) ([d7a9de7](https://github.com/benmelz/limitable/commit/d7a9de76bab92b9a10431281afbfecc6bb976b82))
+
 ## [2.0.1](https://github.com/benmelz/limitable/compare/v2.0.0...v2.0.1) (2025-04-03)
 
 
