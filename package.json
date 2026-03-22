@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "dependencies": {
+    "@semantic-release/changelog": "*",
+    "@semantic-release/git": "*",
+    "@webhippie/semantic-release-rubygem": "*",
+    "semantic-release": "*"
+  },
+  "scripts": {
+    "release": "semantic-release"
+  }
+}

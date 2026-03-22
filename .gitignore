@@ -1,5 +1,6 @@
 /coverage/
 /gemfiles/
+/node_modules/
 /pkg/
 /.rspec_status
 /limitable-*.gem
