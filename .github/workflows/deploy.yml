@@ -1,0 +1,26 @@
+name: deploy
+on:
+  workflow_dispatch:
+jobs:
+  semantic-release:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    steps:
+      - id: generate-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.SEMANTIC_RELEASE_APP_ID }}
+          private-key: ${{ secrets.SEMANTIC_RELEASE_PRIVATE_KEY }}
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+          bundler_cache: true
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - run: npm ci
+      - run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
