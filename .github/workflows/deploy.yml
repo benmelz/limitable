@@ -1,4 +1,4 @@
-name: cd
+name: deploy
 on:
   workflow_dispatch:
 jobs:
